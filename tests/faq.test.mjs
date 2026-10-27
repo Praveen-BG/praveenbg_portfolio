@@ -45,6 +45,8 @@ test('selected FAQ IDs return the approved answer unchanged', async () => {
   const resume = dataset.questions.find(item => item.id === 'contact_002');
   assert.equal(resume.question, 'Can I see your resume?');
   assert.equal(resume.link_text, 'View my resume');
+  assert.equal(resume.url, 'assets/Praveen_CV.pdf');
+  assert.equal(resume.answer, 'Yes. You can view my current resume here.');
   assert.doesNotMatch(JSON.stringify(resume), /résumé|resumé/i);
 });
 
@@ -77,6 +79,7 @@ test('browser code renders visitor content with textContent rather than innerHTM
   assert.match(source, /chat-question-list/);
   assert.match(source, /state\.history\.push/);
   assert.match(source, /playSound\('pop', \{ delay: 110 \}\)/);
+  assert.match(source, /\\\.pdf\(\?:\$\|\[\?#\]\)/);
 });
 
 test('homepage exposes the non-modal chat and cleaned contact surfaces', async () => {
@@ -90,6 +93,7 @@ test('homepage exposes the non-modal chat and cleaned contact surfaces', async (
   assert.match(html, /<section class="contact" id="contact"/);
   assert.match(html, /<canvas class="star-canvas" id="contactStarCanvas"/);
   assert.match(html, /href="mailto:bgpraveen26@gmail\.com">Email ↗<\/a>/);
+  assert.match(html, /href="assets\/Praveen_CV\.pdf" target="_blank" rel="noopener noreferrer">Resume/);
   const contactSection = html.match(/<section class="contact"[\s\S]*?<\/section>/)?.[0] || '';
   assert.doesNotMatch(contactSection, />Let's Talk ↗</);
   assert.doesNotMatch(html, /Instagram/);
@@ -97,7 +101,7 @@ test('homepage exposes the non-modal chat and cleaned contact surfaces', async (
   assert.doesNotMatch(html, /Demo responses|No live AI/i);
 
   const menu = html.match(/<div class="talk-menu"[^>]*>(.*?)<\/div><\/div><\/nav>/)?.[1] || '';
-  assert.ok(menu.indexOf('Résumé') < menu.indexOf('Email'));
+  assert.ok(menu.indexOf('Resume') < menu.indexOf('Email'));
   assert.ok(menu.indexOf('Email') < menu.indexOf('LinkedIn'));
 
   const desktop = html.match(/<nav class="desktop-nav"[\s\S]*?<\/nav>/)?.[0] || '';
@@ -120,11 +124,27 @@ test('chatbot integration is present exactly once on both portfolio pages', asyn
     assert.equal((html.match(/id="assistant"/g) || []).length, 1, `${file} has one panel`);
     assert.match(html, /assets\/experience-preferences\.js\?v=2/);
     assert.match(html, /assets\/ask-praveen\.css\?v=10/);
-    assert.match(html, /assets\/ask-praveen\.js\?v=9/);
+    assert.match(html, /assets\/ask-praveen\.js\?v=10/);
     assert.match(html, /type="button" aria-label="Ask Praveen"/);
     assert.match(html, /role="dialog" aria-modal="false"/);
     assert.ok(html.indexOf('id="chatLog"') < html.indexOf('id="chatActions"'), `${file} can render welcome before categories`);
     assert.ok(html.indexOf('id="chatContent"') < html.indexOf('id="chatForm"'), `${file} keeps the composer as the final panel row`);
     assert.doesNotMatch(html, /id="chatNote"/);
   }
+});
+
+test('every live header exposes the tracked resume PDF without disabled markup', async () => {
+  const home = await fs.readFile('dist/index.html', 'utf8');
+  const explore = await fs.readFile('dist/explore-work.html', 'utf8');
+  const resumeHref = 'href="assets/Praveen_CV.pdf" target="_blank" rel="noopener noreferrer"';
+  assert.equal((home.match(/href="assets\/Praveen_CV\.pdf"/g) || []).length, 2);
+  assert.match(explore, new RegExp(resumeHref.replaceAll('.', '\\.')));
+  assert.doesNotMatch(home, /data-missing="Resume URL"|aria-disabled="true"[^>]*>Resume|Résumé|RÉSUMÉ/);
+  assert.doesNotMatch(home, /Resume\s*<span[^>]*>—<\/span>/);
+  assert.match(home, />Resume <span aria-hidden="true">↗<\/span><\/a>/);
+  assert.match(explore, />Resume ↗<\/a>/);
+  const css = await fs.readFile('dist/assets/ask-praveen.css', 'utf8');
+  assert.doesNotMatch(css, /talk-menu \[aria-disabled=true\]/);
+  const pdf = await fs.readFile('dist/assets/Praveen_CV.pdf');
+  assert.equal(pdf.subarray(0, 5).toString(), '%PDF-');
 });

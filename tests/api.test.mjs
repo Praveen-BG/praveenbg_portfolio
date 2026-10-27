@@ -62,5 +62,5 @@ test('status reports deterministic FAQ, disabled recording, and approved contact
   assert.equal(status.ai_enabled, false);
   assert.equal(status.storage_mode, 'disabled');
   assert.equal(status.storage_configured, false);
-  assert.deepEqual(status.contact, { linkedin: true, email: true, phone: false, resume: false });
+  assert.deepEqual(status.contact, { linkedin: true, email: true, phone: false, resume: true });
 });

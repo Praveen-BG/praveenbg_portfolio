@@ -10,6 +10,7 @@ const mimeTypes = {
   '.js': 'text/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
   '.png': 'image/png',
+  '.pdf': 'application/pdf',
   '.svg': 'image/svg+xml',
   '.webp': 'image/webp'
 };
@@ -57,7 +58,7 @@ export function createPortfolioServer({ config, distDir = path.resolve('dist') }
           ai_enabled: false,
           storage_mode: 'disabled',
           storage_configured: false,
-          contact: { linkedin: true, email: true, phone: false, resume: false }
+          contact: { linkedin: true, email: true, phone: false, resume: true }
         });
       }
 

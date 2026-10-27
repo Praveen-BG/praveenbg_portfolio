@@ -74,7 +74,7 @@ function createMessageRow({ text, role = 'assistant', link = null }) {
     anchor.className = 'chat-link';
     anchor.href = link.url;
     anchor.textContent = `${link.text} ↗`;
-    if (/^https:\/\//.test(link.url)) {
+    if (/^https:\/\//.test(link.url) || /\.pdf(?:$|[?#])/i.test(link.url)) {
       anchor.target = '_blank';
       anchor.rel = 'noopener noreferrer';
     }

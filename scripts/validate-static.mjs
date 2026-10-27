@@ -8,7 +8,7 @@ const errors = [];
 for (const page of pages) {
   const pagePath = path.join(root, page);
   const html = await fs.readFile(pagePath, 'utf8');
-  if (!html.includes('assets/ask-praveen.js?v=9')) errors.push(`${page}: chatbot script is missing`);
+  if (!html.includes('assets/ask-praveen.js?v=10')) errors.push(`${page}: chatbot script is missing`);
   if (!html.includes('assets/experience-preferences.js?v=2')) errors.push(`${page}: shared preference script is missing`);
   if (!html.includes('assets/ask-praveen.css?v=10')) errors.push(`${page}: chatbot stylesheet is missing`);
 
@@ -27,6 +27,16 @@ for (const page of pages) {
 
 const faq = JSON.parse(await fs.readFile(path.join(root, 'data/portfolio-faq.json'), 'utf8'));
 if (faq.total_questions !== faq.questions.length) errors.push('FAQ declared count does not match its entries');
+for (const item of faq.questions) {
+  if (!item.url?.startsWith('assets/')) continue;
+  const target = path.join(root, item.url.split(/[?#]/, 1)[0]);
+  try {
+    const stat = await fs.stat(target);
+    if (!stat.isFile() || stat.size === 0) errors.push(`FAQ ${item.id}: empty asset ${item.url}`);
+  } catch {
+    errors.push(`FAQ ${item.id}: missing asset ${item.url}`);
+  }
+}
 
 if (errors.length) {
   console.error(errors.map(error => `- ${error}`).join('\n'));

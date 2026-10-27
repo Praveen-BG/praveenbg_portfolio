@@ -15,7 +15,7 @@ export function validateFaqDataset(dataset) {
     if (ids.has(item.id)) errors.push(`Duplicate id: ${item.id}`);
     ids.add(item.id);
     if (item.answer?.includes('[') || item.answer?.includes(']')) errors.push(`Question ${item.id} contains a bracketed placeholder`);
-    if (item.url && !/^(https:\/\/|mailto:[^\s@]+@[^\s@]+\.[^\s@]+$|(?:\.\/)?(?:index|explore-work)\.html(?:#[-\w]+)?$)/.test(item.url)) errors.push(`Question ${item.id} has an unsupported URL`);
+    if (item.url && !/^(https:\/\/|mailto:[^\s@]+@[^\s@]+\.[^\s@]+$|(?:\.\/)?(?:index|explore-work)\.html(?:#[-\w]+)?$|assets\/[A-Za-z0-9._/-]+\.pdf(?:[?#][^\s]*)?$)/.test(item.url)) errors.push(`Question ${item.id} has an unsupported URL`);
     if (item.link_text && !item.url) errors.push(`Question ${item.id} has link_text without url`);
   });
   return errors;
