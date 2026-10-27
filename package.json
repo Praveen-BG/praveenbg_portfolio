@@ -1,0 +1,14 @@
+{
+  "name": "praveen-bg-portfolio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "npm run validate:faq && node scripts/validate-static.mjs",
+    "dev": "node server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "validate:faq": "node scripts/validate-faq.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

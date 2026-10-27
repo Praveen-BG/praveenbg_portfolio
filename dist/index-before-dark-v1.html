@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Praveen Gangadharan — UX Designer</title>
+  <meta name="description" content="Praveen Gangadharan is a Chennai-based UX designer focused on persuasive UX strategy and behavior-driven design.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23181d26'/%3E%3Cpath d='M9 23V9h7.2c4 0 6.3 2.2 6.3 5.6s-2.3 5.7-6.3 5.7h-2.9V23H9zm4.3-6.4h2.5c1.6 0 2.5-.7 2.5-2s-.9-2-2.5-2h-2.5v4z' fill='white'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --ink: #181d26;
+      --body: #333840;
+      --muted: #686d75;
+      --line: #dcdfe3;
+      --canvas: #ffffff;
+      --soft: #f6f8fa;
+      --coral: #aa2d00;
+      --forest: #0a2e0e;
+      --cream: #f5e9d4;
+      --peach: #fcab79;
+      --yellow: #f4d35e;
+      --radius: 14px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--canvas);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible { outline: 3px solid var(--peach); outline-offset: 4px; }
+    .wrap { width: min(calc(100% - 40px), var(--max)); margin-inline: auto; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(24, 29, 38, .12);
+      background: rgba(255, 255, 255, .93);
+      backdrop-filter: blur(14px);
+    }
+    .nav-inner { min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; font-weight: 600; }
+    .brand-mark { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 9px; background: var(--ink); color: white; font-size: 15px; }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a { text-decoration: none; color: var(--body); font-size: 14px; }
+    .nav-links a:hover { color: var(--coral); }
+    .nav-cta { padding: 10px 16px; border-radius: 999px; background: var(--ink); color: white !important; }
+
+    .hero { padding: 78px 0 42px; }
+    .eyebrow { margin: 0 0 22px; color: var(--muted); font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+    h1 { max-width: 980px; margin-bottom: 36px; font-size: clamp(3.2rem, 7.4vw, 6.8rem); line-height: .98; letter-spacing: -.06em; font-weight: 500; }
+    .hero-lower { display: grid; grid-template-columns: 1.15fr .85fr; gap: 28px; align-items: stretch; }
+    .intro { display: flex; flex-direction: column; justify-content: space-between; min-height: 280px; padding: 34px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--soft); }
+    .intro p { max-width: 650px; margin-bottom: 28px; font-size: clamp(1.15rem, 2vw, 1.55rem); line-height: 1.45; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 13px 19px; border: 1px solid var(--ink); border-radius: 11px; text-decoration: none; font-weight: 500; transition: transform .2s ease, background .2s ease; }
+    .button:hover { transform: translateY(-2px); }
+    .button.primary { background: var(--ink); color: white; }
+    .button.secondary { background: white; }
+    .arrow { font-size: 1.1em; }
+    .signal-card { position: relative; overflow: hidden; min-height: 280px; padding: 34px; border-radius: var(--radius); background: var(--coral); color: white; }
+    .signal-card::after { content: ""; position: absolute; width: 220px; height: 220px; right: -80px; bottom: -105px; border: 36px solid rgba(255,255,255,.15); border-radius: 50%; }
+    .signal-card .label { font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; opacity: .78; }
+    .signal-card strong { position: relative; z-index: 1; display: block; max-width: 360px; margin-top: 56px; font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: clamp(1.8rem, 3vw, 2.8rem); line-height: 1.15; font-weight: 500; letter-spacing: -.04em; }
+
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin: 32px 0 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .stat { padding: 27px 24px; border-right: 1px solid var(--line); }
+    .stat:last-child { border-right: 0; }
+    .stat b { display: block; font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 1.9rem; line-height: 1.1; font-weight: 500; }
+    .stat span { color: var(--muted); font-size: 14px; }
+
+    section { padding: 104px 0; }
+    .section-grid { display: grid; grid-template-columns: 280px 1fr; gap: 72px; }
+    .section-title { font-size: clamp(2.3rem, 4vw, 4rem); line-height: 1.05; letter-spacing: -.05em; font-weight: 500; }
+    .section-kicker { color: var(--muted); font-size: 14px; }
+    .about-copy > p { max-width: 760px; font-size: clamp(1.35rem, 2.6vw, 2.2rem); line-height: 1.35; letter-spacing: -.025em; }
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 34px; }
+    .chip { padding: 10px 14px; border: 1px solid #aeb2b8; border-radius: 999px; background: white; font-size: 14px; }
+
+    .dark-band { background: var(--forest); color: white; }
+    .dark-band .section-kicker { color: rgba(255,255,255,.66); }
+    .experience-card { display: grid; grid-template-columns: 1fr auto; gap: 24px; padding: 38px 0; border-top: 1px solid rgba(255,255,255,.24); }
+    .experience-card:last-child { border-bottom: 1px solid rgba(255,255,255,.24); }
+    .experience-card h3 { margin-bottom: 8px; font-size: clamp(1.7rem, 3vw, 2.5rem); font-weight: 500; letter-spacing: -.035em; }
+    .experience-card p { margin-bottom: 0; color: rgba(255,255,255,.74); }
+    .experience-card .time { white-space: nowrap; color: var(--peach); font-size: 14px; }
+
+    .credential-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .credential { min-height: 190px; display: flex; flex-direction: column; justify-content: space-between; padding: 25px; border: 1px solid var(--line); border-radius: 12px; transition: border-color .2s, transform .2s; }
+    .credential:hover { transform: translateY(-3px); border-color: #8c9198; }
+    .credential:nth-child(1) { background: var(--cream); border-color: transparent; }
+    .credential:nth-child(4) { background: var(--peach); border-color: transparent; }
+    .credential h3 { margin-bottom: 24px; font-size: 1.2rem; line-height: 1.35; font-weight: 500; }
+    .credential p { margin-bottom: 0; color: var(--body); font-size: 14px; }
+    .credential .date { margin-top: 7px; color: var(--muted); font-size: 13px; }
+
+    .education { background: var(--soft); }
+    .edu-card { display: grid; grid-template-columns: 1fr auto; gap: 24px; padding: 36px; border-radius: var(--radius); background: white; }
+    .edu-card h3 { margin-bottom: 6px; font-size: clamp(1.6rem, 3vw, 2.5rem); font-weight: 500; letter-spacing: -.035em; }
+    .edu-card p { margin-bottom: 0; color: var(--muted); }
+    .edu-year { font-weight: 500; color: var(--coral); }
+
+    .closing { padding: 110px 0; background: var(--ink); color: white; }
+    .closing-inner { display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: end; }
+    .closing h2 { max-width: 820px; margin-bottom: 0; font-size: clamp(2.6rem, 6vw, 5.8rem); line-height: 1; letter-spacing: -.055em; font-weight: 500; }
+    .closing-links { display: grid; gap: 10px; min-width: 210px; }
+    .closing-links a { display: flex; justify-content: space-between; gap: 20px; padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,.28); text-decoration: none; }
+    .closing-links a:hover { color: var(--peach); }
+    footer { padding: 25px 0; border-top: 1px solid rgba(255,255,255,.14); background: var(--ink); color: rgba(255,255,255,.62); font-size: 13px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; }
+
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.in-view { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .reveal { opacity: 1; transform: none; transition: none; } .button { transition: none; } }
+
+    @media (max-width: 760px) {
+      .wrap { width: min(calc(100% - 28px), var(--max)); }
+      .nav-inner { min-height: 62px; }
+      .nav-links a:not(.nav-cta) { display: none; }
+      .hero { padding-top: 54px; }
+      h1 { margin-bottom: 28px; }
+      .hero-lower, .section-grid, .closing-inner { grid-template-columns: 1fr; }
+      .section-grid { gap: 32px; }
+      .intro, .signal-card { min-height: 250px; padding: 26px; }
+      .signal-card strong { margin-top: 42px; }
+      .stats { grid-template-columns: 1fr; }
+      .stat { border-right: 0; border-bottom: 1px solid var(--line); }
+      .stat:last-child { border-bottom: 0; }
+      section { padding: 76px 0; }
+      .credential-grid { grid-template-columns: 1fr; }
+      .experience-card, .edu-card { grid-template-columns: 1fr; }
+      .experience-card .time { grid-row: 1; }
+      .closing { padding: 80px 0; }
+      .closing-links { min-width: 0; }
+      .footer-inner { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" aria-label="Primary navigation">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top" aria-label="Praveen Gangadharan, home"><span class="brand-mark">PG</span><span>Praveen Gangadharan</span></a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#credentials">Credentials</a>
+        <a class="nav-cta" href="https://www.linkedin.com/in/praveenbg/" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <header class="hero">
+      <div class="wrap">
+        <p class="eyebrow">UX Designer · Chennai, India</p>
+        <h1>Designing for how people think, choose and act.</h1>
+        <div class="hero-lower">
+          <div class="intro">
+            <p>Praveen is an experienced UX designer focused on persuasive UX strategy and behavior-driven design.</p>
+            <div class="actions">
+              <a class="button primary" href="https://www.linkedin.com/in/praveenbg/" target="_blank" rel="noreferrer">View LinkedIn <span class="arrow">↗</span></a>
+              <a class="button secondary" href="https://dribbble.com/praveenbg" target="_blank" rel="noreferrer">Explore work <span class="arrow">↗</span></a>
+            </div>
+          </div>
+          <div class="signal-card" aria-label="Current role">
+            <span class="label">Currently</span>
+            <strong>Building thoughtful digital experiences at Media.net.</strong>
+          </div>
+        </div>
+        <div class="stats" aria-label="LinkedIn profile statistics">
+          <div class="stat"><b>2K</b><span>LinkedIn followers</span></div>
+          <div class="stat"><b>500+</b><span>Professional connections</span></div>
+          <div class="stat"><b>Chennai</b><span>Tamil Nadu, India</span></div>
+        </div>
+      </div>
+    </header>
+
+    <section id="about">
+      <div class="wrap section-grid reveal">
+        <div>
+          <p class="section-kicker">01 / About</p>
+          <h2 class="section-title">Strategy with a human pulse.</h2>
+        </div>
+        <div class="about-copy">
+          <p>Praveen’s practice sits at the intersection of user needs, business goals and human behavior—turning research and insight into experiences that are useful, accessible and convincing.</p>
+          <div class="chips" aria-label="Areas of expertise">
+            <span class="chip">Persuasive UX strategy</span>
+            <span class="chip">Behavior-driven design</span>
+            <span class="chip">UX research</span>
+            <span class="chip">Usability testing</span>
+            <span class="chip">Accessibility</span>
+            <span class="chip">Design thinking</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="dark-band" id="experience">
+      <div class="wrap section-grid reveal">
+        <div>
+          <p class="section-kicker">02 / Experience</p>
+          <h2 class="section-title">Product thinking in practice.</h2>
+        </div>
+        <div>
+          <article class="experience-card">
+            <div><h3>Media.net</h3><p>UX design · Digital products</p></div>
+            <span class="time">Current</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="credentials">
+      <div class="wrap section-grid reveal">
+        <div>
+          <p class="section-kicker">03 / Credentials</p>
+          <h2 class="section-title">Always sharpening the craft.</h2>
+        </div>
+        <div class="credential-grid">
+          <article class="credential"><h3>Advanced Certification Programme in Persuasive UX Strategy</h3><div><p>Indian Institute of Technology Delhi</p><p class="date">Issued Nov 2025</p></div></article>
+          <article class="credential"><h3>UX Foundations: Usability Testing</h3><div><p>LinkedIn</p><p class="date">Issued Sep 2020</p></div></article>
+          <article class="credential"><h3>UX Foundations: Research</h3><div><p>LinkedIn</p><p class="date">Issued May 2020</p></div></article>
+          <article class="credential"><h3>UX Foundations: Accessibility</h3><div><p>LinkedIn</p><p class="date">Issued Apr 2020</p></div></article>
+          <article class="credential"><h3>Design Thinking</h3><div><p>International Business Management Institute</p><p class="date">Issued Sep 2019</p></div></article>
+          <article class="credential"><h3>Become a UX Designer from Scratch</h3><div><p>Interaction Design Foundation</p><p class="date">Issued Mar 2018 · Credential 30412</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="education" id="education">
+      <div class="wrap section-grid reveal">
+        <div>
+          <p class="section-kicker">04 / Education</p>
+          <h2 class="section-title">A foundation for making.</h2>
+        </div>
+        <article class="edu-card">
+          <div><h3>VELS University</h3><p>Higher education</p></div>
+          <span class="edu-year">2014 — 2016</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="closing">
+      <div class="wrap closing-inner reveal">
+        <h2>Good design earns attention—and respects it.</h2>
+        <div class="closing-links" aria-label="Portfolio links">
+          <a href="https://www.linkedin.com/in/praveenbg/" target="_blank" rel="noreferrer"><span>LinkedIn</span><span>↗</span></a>
+          <a href="https://dribbble.com/praveenbg" target="_blank" rel="noreferrer"><span>Dribbble</span><span>↗</span></a>
+          <a href="https://www.behance.net/bgpraveen27f52" target="_blank" rel="noreferrer"><span>Behance</span><span>↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner"><span>© <span id="year"></span> Praveen Gangadharan</span><span>UX design · Persuasive strategy · Human behavior</span></div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const reveal = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add('in-view'); });
+    }, { threshold: 0.14 });
+    document.querySelectorAll('.reveal').forEach((el) => reveal.observe(el));
+  </script>
+</body>
+</html>
