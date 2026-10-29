@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const root = path.resolve('dist');
-const pages = ['index.html', 'explore-work.html'];
+const pages = ['index.html', 'explore-work.html', 'deskbuddy.html'];
 const errors = [];
 
 for (const page of pages) {

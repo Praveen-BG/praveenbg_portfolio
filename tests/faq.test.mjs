@@ -117,8 +117,8 @@ test('homepage exposes the non-modal chat and cleaned contact surfaces', async (
   assert.ok(mobile.indexOf('ABOUT') < mobile.indexOf("LET'S TALK"));
 });
 
-test('chatbot integration is present exactly once on both portfolio pages', async () => {
-  for (const file of ['dist/index.html', 'dist/explore-work.html']) {
+test('chatbot integration is present exactly once on every portfolio page', async () => {
+  for (const file of ['dist/index.html', 'dist/explore-work.html', 'dist/deskbuddy.html']) {
     const html = await fs.readFile(file, 'utf8');
     assert.equal((html.match(/id="assistantOpen"/g) || []).length, 1, `${file} has one launcher`);
     assert.equal((html.match(/id="assistant"/g) || []).length, 1, `${file} has one panel`);
@@ -133,12 +133,14 @@ test('chatbot integration is present exactly once on both portfolio pages', asyn
   }
 });
 
-test('every live header exposes the tracked resume PDF without disabled markup', async () => {
+test('resume stays available on primary portfolio headers but not the DeskBuddy case-study header', async () => {
   const home = await fs.readFile('dist/index.html', 'utf8');
   const explore = await fs.readFile('dist/explore-work.html', 'utf8');
+  const deskBuddy = await fs.readFile('dist/deskbuddy.html', 'utf8');
   const resumeHref = 'href="assets/Praveen_CV.pdf" target="_blank" rel="noopener noreferrer"';
   assert.equal((home.match(/href="assets\/Praveen_CV\.pdf"/g) || []).length, 2);
   assert.match(explore, new RegExp(resumeHref.replaceAll('.', '\\.')));
+  assert.doesNotMatch(deskBuddy, /class="resume-link"/);
   assert.doesNotMatch(home, /data-missing="Resume URL"|aria-disabled="true"[^>]*>Resume|Résumé|RÉSUMÉ/);
   assert.doesNotMatch(home, /Resume\s*<span[^>]*>—<\/span>/);
   assert.match(home, />Resume <span aria-hidden="true">↗<\/span><\/a>/);
@@ -147,4 +149,17 @@ test('every live header exposes the tracked resume PDF without disabled markup',
   assert.doesNotMatch(css, /talk-menu \[aria-disabled=true\]/);
   const pdf = await fs.readFile('dist/assets/Praveen_CV.pdf');
   assert.equal(pdf.subarray(0, 5).toString(), '%PDF-');
+});
+
+test('DeskBuddy card and case-study gallery use the approved structure and original pose assets', async () => {
+  const home = await fs.readFile('dist/index.html', 'utf8');
+  const deskBuddy = await fs.readFile('dist/deskbuddy.html', 'utf8');
+  assert.match(home, /<span class="lab-tag">BUILT · CONCEPT<\/span><h3>DeskBuddy<\/h3>/);
+  assert.match(home, /<a href="deskbuddy\.html">Case Study ↗<\/a>/);
+  assert.match(home, /<a href="https:\/\/deskbuddy-prototype\.vercel\.app\/" target="_blank" rel="noopener noreferrer">Try DeskBuddy ↗<\/a>/);
+  assert.doesNotMatch(home, /Windows AI Companion|deskBuddyHeading|<span class="status">Exploring<\/span><h3>DeskBuddy/);
+  for (const pose of ['idle', 'walking', 'jumping', 'rolling', 'sleeping', 'thinking', 'cleaning', 'happy', 'tired', 'worried']) {
+    assert.match(deskBuddy, new RegExp(`assets/deskbuddy/poses/${pose}\\.png`));
+  }
+  assert.equal((deskBuddy.match(/class="pose-card/g) || []).length, 10);
 });
