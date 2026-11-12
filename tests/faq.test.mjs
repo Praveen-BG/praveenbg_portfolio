@@ -84,6 +84,10 @@ test('browser code renders visitor content with textContent rather than innerHTM
 
 test('homepage exposes the non-modal chat and cleaned contact surfaces', async () => {
   const html = await fs.readFile('dist/index.html', 'utf8');
+  assert.match(html, /<h3>AI Triathlon Coach<\/h3>/);
+  assert.match(html, /assets\/ai-lab\/ai-triathlon-coach-train-with-evidence\.png/);
+  assert.doesNotMatch(html, /ai-triathlon-coach-today-dashboard\.png/);
+  assert.doesNotMatch(html, /Monster Kids|friendly monster|body parts/i);
   assert.match(html, /role="dialog" aria-modal="false"/);
   assert.match(html, /Interactive portfolio FAQ/);
   assert.doesNotMatch(html, /Answers from approved portfolio information/);
@@ -118,7 +122,7 @@ test('homepage exposes the non-modal chat and cleaned contact surfaces', async (
 });
 
 test('chatbot integration is present exactly once on every portfolio page', async () => {
-  for (const file of ['dist/index.html', 'dist/explore-work.html', 'dist/deskbuddy.html']) {
+  for (const file of ['dist/index.html', 'dist/explore-work.html', 'dist/deskbuddy.html', 'dist/atom-desktop.html', 'dist/gain-credit.html', 'dist/idp.html', 'dist/matrimony.html']) {
     const html = await fs.readFile(file, 'utf8');
     assert.equal((html.match(/id="assistantOpen"/g) || []).length, 1, `${file} has one launcher`);
     assert.equal((html.match(/id="assistant"/g) || []).length, 1, `${file} has one panel`);

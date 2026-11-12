@@ -30,6 +30,8 @@ export function getConfig(overrides = {}) {
     rateLimitPerMinute: integer(overrides.rateLimitPerMinute ?? process.env.CHAT_RATE_LIMIT_PER_MINUTE, 60, 5, 1000),
     supabaseUrl: overrides.supabaseUrl ?? process.env.SUPABASE_URL ?? '',
     supabaseServiceRoleKey: overrides.supabaseServiceRoleKey ?? process.env.SUPABASE_SERVICE_ROLE_KEY ?? '',
-    aiEnabled: String(overrides.aiEnabled ?? process.env.ASK_PRAVEEN_AI_ENABLED ?? 'false').toLowerCase() === 'true'
+    aiEnabled: String(overrides.aiEnabled ?? process.env.ASK_PRAVEEN_AI_ENABLED ?? 'false').toLowerCase() === 'true',
+    atomApiKey: overrides.atomApiKey ?? process.env.OPENAI_API_KEY ?? '',
+    atomAiModel: overrides.atomAiModel ?? process.env.ATOM_AI_MODEL ?? 'gpt-5-mini'
   };
 }

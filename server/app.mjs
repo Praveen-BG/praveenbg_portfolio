@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import http from 'node:http';
 import path from 'node:path';
+import { generateAtomExplanation, readJsonBody } from './atom-ai.mjs';
 
 const mimeTypes = {
   '.css': 'text/css; charset=utf-8',
@@ -64,6 +65,12 @@ export function createPortfolioServer({ config, distDir = path.resolve('dist') }
 
       if (req.method === 'POST' && url.pathname.startsWith('/api/chat/')) {
         return json(res, 410, { error: 'Chat recording is disabled.' });
+      }
+
+      if (req.method === 'POST' && url.pathname === '/api/atom-ai') {
+        const body = await readJsonBody(req);
+        const result = await generateAtomExplanation({ body, apiKey: config.atomApiKey, model: config.atomAiModel });
+        return json(res, 200, result);
       }
 
       if (url.pathname.startsWith('/api/')) return json(res, 404, { error: 'Not found.' });

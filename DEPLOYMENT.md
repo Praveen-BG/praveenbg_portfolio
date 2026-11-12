@@ -10,7 +10,18 @@ This is a buildless static portfolio. Files in `dist/` are the authoritative web
 - Output Directory: **`dist`**
 - Install Command: Vercel default (`npm install`); the project currently has no runtime dependencies.
 
-No environment variables are required for the static portfolio or deterministic Ask Praveen FAQ.
+No environment variables are required for the static portfolio, deterministic Ask Praveen FAQ, or the Atom prototype's fixed fallback.
+
+## Optional Atom AI endpoint
+
+The repository includes `api/atom-ai.mjs`, which Vercel deploys as a serverless function at `/api/atom-ai`.
+
+- `OPENAI_API_KEY` — optional but required for a live model response. Configure it as a server-side Vercel environment variable. Never use a `VITE_`, `NEXT_PUBLIC_`, or other browser-exposed prefix.
+- `ATOM_AI_MODEL` — optional model override. The default is `gpt-5-mini`.
+
+For local testing, copy `.env.example` to `.env` and add the key. The local preview server reads `.env`; `.env` is ignored by Git. When the key is missing, blocked, or the request fails, the UI returns a labeled **Quick explanation** and the preview/apply/reset flow remains available.
+
+The endpoint accepts at most 320 question characters, rate-limits requests, sets `store: false`, and sends only the simulated Private Mode state, selected provider, submitted question, and reviewed product facts. It does not receive browser history or search queries and does not write raw questions to portfolio storage.
 
 ## Optional local server configuration
 
@@ -24,7 +35,7 @@ The Node development server is not part of the static Vercel output. It recognis
 - `SUPABASE_SERVICE_ROLE_KEY`
 - `ASK_PRAVEEN_AI_ENABLED`
 
-Chat recording and live AI endpoints are intentionally disabled in the current application. Supabase is therefore not required. Deploying a future backend would require a separately configured Vercel Function or another server runtime; never expose `SUPABASE_SERVICE_ROLE_KEY` to browser code.
+Chat recording and live AI remain disabled for Ask Praveen. The Atom Vercel Function is separate and does not require Supabase. Never expose `SUPABASE_SERVICE_ROLE_KEY` or `OPENAI_API_KEY` to browser code.
 
 ## Pre-push checks
 
