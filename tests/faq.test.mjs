@@ -137,6 +137,16 @@ test('chatbot integration is present exactly once on every portfolio page', asyn
   }
 });
 
+test('every live portfolio page uses the shared avatar favicon without conflicts', async () => {
+  const pages = ['index.html', 'explore-work.html', 'deskbuddy.html', 'atom-desktop.html', 'gain-credit.html', 'idp.html', 'matrimony.html'];
+  for (const page of pages) {
+    const html = await fs.readFile(`dist/${page}`, 'utf8');
+    assert.equal((html.match(/rel="icon"/g) || []).length, 1, `${page} has one favicon declaration`);
+    assert.match(html, /<link rel="icon" type="image\/png" sizes="32x32" href="\/assets\/favicon-32\.png">/);
+    assert.match(html, /<link rel="apple-touch-icon" sizes="180x180" href="\/assets\/apple-touch-icon\.png">/);
+  }
+});
+
 test('resume stays available on primary portfolio headers but not the DeskBuddy case-study header', async () => {
   const home = await fs.readFile('dist/index.html', 'utf8');
   const explore = await fs.readFile('dist/explore-work.html', 'utf8');

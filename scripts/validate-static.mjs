@@ -12,10 +12,10 @@ for (const page of pages) {
   if (!html.includes('assets/experience-preferences.js?v=2')) errors.push(`${page}: shared preference script is missing`);
   if (!html.includes('assets/ask-praveen.css?v=10')) errors.push(`${page}: chatbot stylesheet is missing`);
 
-  const localReferences = [...html.matchAll(/(?:src|href)="((?:assets|data)\/[^"?#]+)(?:[?#][^"]*)?"/g)]
+  const localReferences = [...html.matchAll(/(?:src|href)="(\/?(?:assets|data)\/[^"?#]+)(?:[?#][^"]*)?"/g)]
     .map(match => match[1]);
   for (const reference of new Set(localReferences)) {
-    const target = path.join(root, reference);
+    const target = path.join(root, reference.replace(/^\/+/, ''));
     try {
       const stat = await fs.stat(target);
       if (!stat.isFile() || stat.size === 0) errors.push(`${page}: empty asset ${reference}`);
